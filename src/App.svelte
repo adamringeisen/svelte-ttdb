@@ -1,25 +1,50 @@
 <script lang="ts">
-  import logo from './assets/svelte.png'
-  import Counter from './lib/Counter.svelte'
-  import Roll from './lib/Roll.svelte'
-  
+
+  import Output from './lib/Output.svelte';
+  import RollCustom from './lib/RollCustom.svelte';
+  let bstr: string;
+  let btxt: string;
+  export let buttons = [
+    { string : '1d100', text : 'd100' },
+    {string: "1d20", text: "d20"},
+    {string: "1d12", text: "d12"},
+    { string : '1d10', text : 'd10' },
+    { string : '1d8', text : 'd8' },
+    { string : '1d6', text : 'd6' },
+    { string : '1d4', text : 'd4' },
+    { string : '1d2', text : 'd2' },
+  ]
+  export let customButtons = [];
+  const addButton = () => {
+    customButtons.push({string: bstr, text: btxt});
+    console.log(buttons);
+    bstr = null;
+    btxt = null
+    customButtons = customButtons;
+  }
 </script>
 
 <main>
-  <img src={logo} alt="Svelte Logo" />
-  <h1>Hello Typescript!</h1>
 
-  <Counter />
-<Roll />
-  <p>
-    Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte
-    apps.
-  </p>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme">SvelteKit</a> for
-    the officially supported framework, also powered by Vite!
-  </p>
+  <Output />
+  <h1>Regular Dice</h1>
+{#each buttons as button}
+<RollCustom rs={button.string} buttonText={button.text} />
+{/each}
+<h1>Custom Buttons</h1>
+{#each customButtons as button}
+<RollCustom rs={button.string} buttonText={button.text} />
+{/each}
+<br/> 
+<label>Dice to Roll
+<input bind:value={bstr}>
+</label>
+<br/>
+<label>Button Text
+<input bind:value={btxt}>
+</label>
+<br/>
+<button on:click={addButton}>Add Button</button>
 </main>
 
 <style>
