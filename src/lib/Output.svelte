@@ -4,7 +4,7 @@
 </script>
 
 {#if ($result === undefined)}
-<div></div>
+<div>&nbsp;</div>
 {:else}
 <div>{$result.total}</div>
 {/if}
